@@ -6,10 +6,11 @@ fn main() {
         let mut line = String::new();
         io::stdin().read_line(&mut line).unwrap();
         let chars = get_chars(&line);
+        println!("{}", line.trim());
         for (char, cnt) in chars {
             print!("'{}': {}; ", char, cnt);
         }
-            println!()
+        println!()
     }
 }
 
