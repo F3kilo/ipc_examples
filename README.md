@@ -5,3 +5,6 @@ Basic examples of IPC in Rust.
 - File IPC
 - UDP socket
 - Channels
+- Shared memory
+- gRPC
+- Named mutex
