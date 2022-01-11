@@ -16,5 +16,5 @@ fn main() {
         .calc_square(Default::default(), request)
         .join_metadata_result();
     let response = pollster::block_on(response_fut);
-    println!("{:?}", response)
+    println!("{:#?}", response)
 }
