@@ -1,2 +1,2 @@
 [workspace]
-members = ["file", "socket", "channel", "shared_mem"]
+members = ["file", "socket", "channel", "shared_mem", "rpc"]

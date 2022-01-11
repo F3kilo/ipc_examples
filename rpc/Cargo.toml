@@ -1,0 +1,15 @@
+[package]
+name = "rpc"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+grpc = "0.8.3"
+protobuf = "2.18.2"
+grpc-protobuf = "0.8.3"
+pollster = "0.2.4"
+
+[build-dependencies]
+protoc-rust-grpc = "0.8.3"
