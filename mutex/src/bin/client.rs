@@ -1,5 +1,5 @@
-use std::{io, thread};
 use std::net::UdpSocket;
+use std::thread;
 use std::time::Duration;
 
 fn main() {
