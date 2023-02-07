@@ -5,6 +5,11 @@ fn main() {
     loop {
         let mut line = String::new();
         io::stdin().read_line(&mut line).unwrap();
+
+        if line.is_empty() {
+            return;
+        }
+
         let chars = get_chars(&line);
         println!("{}", line.trim());
         for (char, cnt) in chars {
