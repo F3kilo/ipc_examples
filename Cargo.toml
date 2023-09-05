@@ -1,2 +1,11 @@
 [workspace]
-members = ["file", "socket", "channel", "shared_mem", "rpc", "mutex"]
+members = [
+    "file", 
+    "socket", 
+    "channel", 
+    "shared_mem", 
+    "rpc", 
+    "mutex", 
+]
+
+resolver = "2"
