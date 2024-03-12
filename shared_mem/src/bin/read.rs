@@ -12,7 +12,7 @@ fn main() {
         let mut len_buf = [0; 4];
         len_buf.copy_from_slice(&data[..4]);
         let msg_len = u32::from_be_bytes(len_buf) as usize;
-        let msg = String::from_utf8_lossy(&data[4..4 + msg_len as usize]);
+        let msg = String::from_utf8_lossy(&data[4..4 + msg_len]);
         println!("{}", msg);
         thread::sleep(Duration::from_secs(1));
     }
