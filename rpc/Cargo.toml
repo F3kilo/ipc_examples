@@ -9,7 +9,7 @@ edition = "2021"
 grpc = "0.8.3"
 protobuf = "2.18.2"
 grpc-protobuf = "0.8.3"
-pollster = "0.2.4"
+pollster = "0.3.0"
 
 [build-dependencies]
 protoc-rust-grpc = "0.8.3"
