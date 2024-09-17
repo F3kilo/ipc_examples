@@ -3,11 +3,7 @@ use std::thread;
 use std::time::Duration;
 
 fn main() {
-    let socket = loop {
-        if let Ok(socket) = UdpSocket::bind("0.0.0.0:0") {
-            break socket;
-        }
-    };
+    let socket = UdpSocket::bind("0.0.0.0:0").unwrap();
 
     let lock = named_lock::NamedLock::create("my_named_lock").expect("can't create named lock");
     let _guard = lock.lock().expect("can't get lock");
