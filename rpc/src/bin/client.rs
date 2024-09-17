@@ -1,20 +1,21 @@
-use grpc::ClientStubExt;
-use rpc::square::SquareRequest;
-use rpc::square_grpc::SquareClient;
+use square::square_client::SquareClient;
 
-fn main() {
-    let client = SquareClient::new_plain("127.0.0.1", 55331, Default::default()).unwrap();
+pub mod square {
+    tonic::include_proto!("square");
+}
 
-    let request = SquareRequest {
-        name: "small rectangle".into(),
-        width: 5,
-        height: 3,
-        ..Default::default()
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let mut client = SquareClient::connect("http://0.0.0.0:50051").await?;
+
+    let request = square::SquareRequest {
+        name: "Some square".to_string(),
+        width: 3,
+        height: 4,
     };
 
-    let response_fut = client
-        .calc_square(Default::default(), request)
-        .join_metadata_result();
-    let response = pollster::block_on(response_fut);
-    println!("{:#?}", response)
+    let response = client.calc_square(request).await?;
+    println!("RESPONSE={:#?}", response);
+
+    Ok(())
 }

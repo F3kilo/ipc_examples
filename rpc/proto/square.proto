@@ -1,4 +1,5 @@
 syntax = "proto3";
+package square;
 
 service Square {
   rpc CalcSquare (SquareRequest) returns (SquareResponse) {}

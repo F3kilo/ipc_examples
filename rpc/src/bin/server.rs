@@ -1,41 +1,40 @@
-use grpc::{ServerBuilder, ServerHandlerContext, ServerRequestSingle, ServerResponseUnarySink};
-use rpc::square::{SquareRequest, SquareResponse};
-use rpc::square_grpc::{Square, SquareServer};
-use std::thread;
+use square::square_server::{Square, SquareServer};
+use square::{SquareRequest, SquareResponse};
+use tonic::transport::Server;
+use tonic::{Request, Response, Status};
 
-fn main() {
-    let mut server = ServerBuilder::new_plain();
-    server.http.set_addr("0.0.0.0:55331").unwrap();
-    server.add_service(SquareServer::new_service_def(SquareImpl));
-    let _runnung = server.build().unwrap();
-
-    loop {
-        thread::park()
-    }
+pub mod square {
+    tonic::include_proto!("square");
 }
 
-struct SquareImpl;
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let addr = "0.0.0.0:50051".parse()?;
+    let service = MySquareService::default();
 
-impl Square for SquareImpl {
-    fn calc_square(
+    Server::builder()
+        .add_service(SquareServer::new(service))
+        .serve(addr)
+        .await?;
+
+    Ok(())
+}
+
+#[derive(Debug, Default)]
+struct MySquareService {}
+
+#[tonic::async_trait]
+impl Square for MySquareService {
+    async fn calc_square(
         &self,
-        _: ServerHandlerContext,
-        req: ServerRequestSingle<SquareRequest>,
-        resp: ServerResponseUnarySink<SquareResponse>,
-    ) -> grpc::Result<()> {
-        let name = req.message.name;
-        let width = req.message.width;
-        let height = req.message.height;
+        request: Request<SquareRequest>,
+    ) -> Result<Response<SquareResponse>, Status> {
+        println!("Got a request: {:#?}", request);
 
-        let square = width * height;
-        let message = format!("Calculated square for {}: {}", name, square);
-        println!("{}", message);
-        let response = SquareResponse {
-            message,
-            square,
-            ..Default::default()
-        };
+        let request = request.into_inner();
+        let square = request.width * request.height;
+        let message = format!("The square of {} is {}", request.name, square);
 
-        resp.finish(response)
+        Ok(Response::new(SquareResponse { square, message }))
     }
 }
